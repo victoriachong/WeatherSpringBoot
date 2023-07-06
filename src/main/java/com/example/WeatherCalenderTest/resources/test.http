@@ -1,0 +1,25 @@
+POST http://localhost:8080/users
+Accept: application/json
+
+{
+"userame":"Victoria",
+"email": "weather@gmail.com",
+"password": "hi"
+}
+
+###
+
+POST http://localhost:8080/users
+Accept: application/json
+
+{"userame":"Erica",
+"email": "weather@gmail.com",
+"password": "olo" }
+###
+
+POST http://localhost:8080/users
+Accept: application/json
+
+{"userame":"I-Yu",
+"email": "weather@gmail.com",
+"password": "niihao" }
