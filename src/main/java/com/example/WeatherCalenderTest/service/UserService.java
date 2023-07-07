@@ -12,12 +12,14 @@ import java.util.Optional;
 @Service
 public class UserService {
     private final List<User> users = new ArrayList<>();
+    private Integer idcount=0;
 
     public List<User> getAllUsers() {
         return users;
     }
     public void insertUser(User newUser){
-        newUser.setId(users.size());
+        newUser.setId(idcount);
+        idcount+=1;
         users.add(newUser);
     }
     public Optional<User> getUser (Integer id){
@@ -29,8 +31,8 @@ public class UserService {
         return Optional.empty();
     }
 
-    public void deleteUser (User user){
-        users.remove(user);
+    public void deleteUser (User cuser){
+        users.remove(cuser);
     }
 
     public void editUser (User cuser, User editUser){
