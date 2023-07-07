@@ -1,8 +1,8 @@
 POST http://localhost:8080/users
-Accept: application/json
+Content-Type: application/json
 
 {
-"userame":"Victoria",
+"username":"Victoria",
 "email": "weather@gmail.com",
 "password": "hi"
 }
@@ -10,7 +10,7 @@ Accept: application/json
 ###
 
 POST http://localhost:8080/users
-Accept: application/json
+Content-Type: application/json
 
 {"userame":"Erica",
 "email": "weather@gmail.com",
@@ -18,7 +18,7 @@ Accept: application/json
 ###
 
 POST http://localhost:8080/users
-Accept: application/json
+Content-Type: application/json
 
 {"userame":"I-Yu",
 "email": "weather@gmail.com",
