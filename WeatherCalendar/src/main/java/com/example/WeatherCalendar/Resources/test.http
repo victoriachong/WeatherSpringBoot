@@ -1,0 +1,28 @@
+POST http://localhost:8080/events
+Content-Type: application/json
+
+{
+"eventTitle": "Photography for Porche Wedding",
+"location" : "Sydney Royal Botanic Gardens",
+"startTime" : 1688608800,
+"endTime" : 1688630400,
+"tzOffset" : 10.0,
+"description" : "Mr and Mrs Porche Ceremony and Reception"
+}
+
+###
+POST http://localhost:8080/events
+Content-Type: application/json
+
+{
+  "eventTitle": "Photography for Smith Family",
+  "location" : "26 August Parade, Sydney",
+  "startTime" : 1688608800,
+  "endTime" : 1688630400,
+  "tzOffset" : 10.0,
+  "description" : "Family photos for the Smith Family (6 people)"
+}
+
+###
+
+
