@@ -14,7 +14,7 @@ Content-Type: application/json
 
 {"username":"Erica",
 "email": "weather@gmail.com",
-"password": "olo" }
+"password": "olo"}
 ###
 
 POST http://localhost:8080/users
@@ -22,14 +22,18 @@ Content-Type: application/json
 
 {"username":"I-Yu",
 "email": "weather@gmail.com",
-"password": "niihao" }
+"password": "niihao"}
 
 ###
 PATCH http://localhost:8080/users/1
 Content-Type: application/json
 
 {
-  "favourites": ["Berlin", "Singapore"]
+  "username": "victoria",
+  "favourites": [
+    "Berlin",
+    "Singapore"
+  ]
 }
 
 ###

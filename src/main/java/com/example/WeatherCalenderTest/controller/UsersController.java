@@ -1,7 +1,9 @@
 package com.example.WeatherCalenderTest.controller;
 
-import com.example.WeatherCalenderTest.service.UserService;
+import com.example.WeatherCalenderTest.resources.UserInput;
+import com.example.WeatherCalenderTest.resources.UserRepository;
 import com.example.WeatherCalenderTest.model.User;
+import jakarta.transaction.Transactional;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -11,89 +13,88 @@ import java.util.Optional;
 
 @RestController
 public class UsersController {
-    private final UserService userService;
+    private UserRepository userRepository;
 
-    public UsersController(UserService userService){
-        this.userService = userService;
+    public UsersController(UserRepository userRepository){
+        this.userRepository = userRepository;
     }
 
     @GetMapping(path = "/users")
     public List<User> getAllUsers(){
-        return userService.getAllUsers();
+        return userRepository.findAll();
     }
 
-    @PostMapping(path = "/users")
-    public void insertUser(@RequestBody User newUser){
-        try{
-            userService.insertUser(newUser);
-        } catch(IllegalArgumentException e){
-            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY);
-        }
+    @GetMapping(path="/users/username")
+    public List<User> getUserByUsername(@RequestParam("username") String username) {
+        return userRepository.findByUsernameContainsIgnoreCase(username);
+    }
+
+    @GetMapping(path="/users/email")
+    public List<User> getUserByEmail(@RequestParam("email") String email) {
+        return userRepository.findByEmailContainsIgnoreCase(email);
     }
 
     @GetMapping(path = "/users/{id}")
-    public User getUser(@PathVariable("id") Integer id){
-        Optional<User> userWithTheGivenID = userService.getUser(id);
+    public User getUser(@PathVariable("id") long id){
+        Optional<User> userWithTheGivenID= userRepository.findById(id);
         if (userWithTheGivenID.isEmpty()){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
         return userWithTheGivenID.get();
     }
 
+    @PostMapping(path = "/users")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void insertUser(@RequestBody UserInput inputUser){
+        User newUser = inputUser.toNewUser();
+        userRepository.save(newUser);
+    }
+
     @DeleteMapping(path = "/users/{id}")
-    public void deleteUser(@PathVariable("id") Integer id){
-        Optional<User> userWithTheGivenID = userService.getUser(id);
-        if (userWithTheGivenID.isEmpty()){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
-        userService.deleteUser(userWithTheGivenID.get());
+    @Transactional
+    public void deleteUser(@PathVariable("id") long id){
+        userRepository.deleteById(id);
     }
 
     @PatchMapping(path = "users/{id}")
-    public void editUser(@PathVariable("id") Integer id, @RequestBody User editUser){
-        Optional<User> userWithTheGivenID = userService.getUser(id);
+    public User editUser(@PathVariable("id") long id, @RequestBody UserInput newUser){
+        User editUser = newUser.toNewUser();
+
+        Optional<User> userWithTheGivenID = userRepository.findById(id);
         if (userWithTheGivenID.isEmpty()){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
-        userService.editUser(userWithTheGivenID.get(), editUser);
+        User edittedUser = editUser(userWithTheGivenID.get(), editUser);
+        userRepository.save(edittedUser);
 
+        return edittedUser;
     }
-//
-//    @PutMapping(path = "users/{id}/username")
-//    public void editUsername(@PathVariable("id") Integer id, @RequestBody String newUsername){
-//        Optional<User> userWithTheGivenID = userService.getUser(id);
-//        if (userWithTheGivenID.isEmpty()){
-//            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-//        }
-//        userService.editUsername(userWithTheGivenID.get(), newUsername);
-//    }
-//
-//    @PutMapping(path = "users/{id}/password")
-//    public void editPassword(@PathVariable("id") Integer id, @RequestBody String newPassword) {
-//        Optional<User> userWithTheGivenID = userService.getUser(id);
-//        if (userWithTheGivenID.isEmpty()) {
-//            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-//        }
-//        userService.editPassword(userWithTheGivenID.get(), newPassword);
-//    }
-//
-//    @PutMapping(path = "users/{id}")
-//    public void editEmail(@PathVariable("id") Integer id, @RequestBody String newEmail) {
-//        Optional<User> userWithTheGivenID = userService.getUser(id);
-//        if (userWithTheGivenID.isEmpty()) {
-//            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-//        }
-//        userService.editEmail(userWithTheGivenID.get(), newEmail);
-//    }
-//
-//    @PutMapping(path = "users/{id}")
-//    public void editFavourites(@PathVariable("id") Integer id, @RequestBody String Favourite) {
-//        Optional<User> userWithTheGivenID = userService.getUser(id);
-//        if (userWithTheGivenID.isEmpty()) {
-//            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-//        }
-//        userService.editFavourites(userWithTheGivenID.get(),Favourite);
-//    }
-//
+
+    private User editUser(User cuser, User editUser) {
+        if (editUser.getUsername() != null) {
+            cuser.setUsername(editUser.getUsername());
+        }
+
+        if (editUser.getEmail() != null) {
+            cuser.setEmail(editUser.getEmail());
+        }
+
+        if (editUser.getPassword() != null) {
+            cuser.setPassword(editUser.getPassword());
+        }
+
+        if (editUser.getFavourites() != null) {
+            List<String> cfavourites = cuser.getFavourites();
+            for (String Favourite : editUser.getFavourites()) {
+                if (cfavourites.contains(Favourite)) {
+                    cfavourites.remove(Favourite);
+                } else {
+                    cfavourites.add(Favourite);
+                }
+            }
+        }
+        return cuser;
+    }
+
 
 }

@@ -1,19 +1,25 @@
 package com.example.WeatherCalenderTest.model;
 
+import jakarta.persistence.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
+@Table(name = "weatherUsers")
 public class User {
 
-    private Integer id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private long id;
     private String username;
     private String password;
     private String email;
-    private List<Event> UserEvents = new ArrayList<Event>();
+//    private List<Event> UserEvents = new ArrayList<Event>();
     private Double localtzoffset;
     private List<String> favourites = new ArrayList<String>();
 
-    public Integer getId() {
+    public long getId() {
         return id;
     }
 
@@ -45,13 +51,13 @@ public class User {
         this.email = email;
     }
 
-    public List<Event> getUserEvents() {
-        return UserEvents;
-    }
-
-    public void setUserEvents(List<Event> userEvents) {
-        UserEvents = userEvents;
-    }
+//    public List<Event> getUserEvents() {
+//        return UserEvents;
+//    }
+//
+//    public void setUserEvents(List<Event> userEvents) {
+//        UserEvents = userEvents;
+//    }
 
     public Double getLocaltzoffset() {
         return localtzoffset;
