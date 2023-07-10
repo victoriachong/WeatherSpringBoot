@@ -14,6 +14,7 @@ public class User {
     private long id;
     private String username;
     private String password;
+    @Column(unique = true)
     private String email;
 //    private List<Event> UserEvents = new ArrayList<Event>();
     private Double localtzoffset;
