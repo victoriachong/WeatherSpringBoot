@@ -1,6 +1,6 @@
 package com.example.WeatherCalenderTest.controller;
 
-import com.example.WeatherCalenderTest.model.Event;
+import com.example.WeatherCalenderTest.model.WeatherEvent;
 import com.example.WeatherCalenderTest.model.WeatherUser;
 import com.example.WeatherCalenderTest.resources.EventInput;
 import com.example.WeatherCalenderTest.resources.EventsRepository;
@@ -22,24 +22,24 @@ public class EventsController {
     public EventsController (EventsRepository eventsRepository, UserRepository userRepository){this.eventsRepository=eventsRepository; this.userRepository = userRepository;}
 
     @GetMapping(path = "/events")
-    public List<Event> getAllEvents(){
+    public List<WeatherEvent> getAllEvents(){
         return eventsRepository.findAll();
     }
 
     @GetMapping(path="/events/{id}")
-    public Set<Event> getUsersEvents(@PathVariable("id") Long id){
+    public Set<WeatherEvent> getUsersEvents(@PathVariable("id") Long id){
         Optional<WeatherUser> userWithTheGivenID= userRepository.findById(id);
         if (userWithTheGivenID.isEmpty()){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
-        return userWithTheGivenID.get().getEvents();
+        return userWithTheGivenID.get().getUserEvents();
     }
 
     @PostMapping(path="events")
-    public Event addEvent(@RequestBody EventInput inputEvent){
-        Event newEvent = inputEvent.toNewEvent(userRepository);
-        eventsRepository.save(newEvent);
-        return newEvent;
+    public WeatherEvent addEvent(@RequestBody EventInput inputEvent){
+        WeatherEvent newWeatherEvent = inputEvent.toNewEvent(userRepository);
+        eventsRepository.save(newWeatherEvent);
+        return newWeatherEvent;
     }
 
     @DeleteMapping(path = "/events/{id}")
@@ -50,37 +50,37 @@ public class EventsController {
 
 
     @PatchMapping(path = "events/{id}")
-    public Event editEvent(@PathVariable("id") long id , @RequestBody EventInput inputEvent){
+    public WeatherEvent editEvent(@PathVariable("id") long id , @RequestBody EventInput inputEvent){
 //        Find the event to be editted
-        Optional<Event> eventWithGivenID = eventsRepository.findById(id);
+        Optional<WeatherEvent> eventWithGivenID = eventsRepository.findById(id);
         if (eventWithGivenID.isEmpty()){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
 //        Make Eventinput into event shouldnt have a userId as original event should alr have a user
-        Event eventInput = inputEvent.toNewEvent(userRepository);
+        WeatherEvent weatherEventInput = inputEvent.toNewEvent(userRepository);
 
-        Event edittedEvent = editEventService(eventWithGivenID.get(), eventInput);
-        eventsRepository.save(edittedEvent);
+        WeatherEvent edittedWeatherEvent = editEventService(eventWithGivenID.get(), weatherEventInput);
+        eventsRepository.save(edittedWeatherEvent);
 
-        return edittedEvent;
+        return edittedWeatherEvent;
     }
 
 
-    private Event editEventService(Event cevent, Event editEvent) {
-        if (editEvent.getTitle() != null) {
-            cevent.setTitle(editEvent.getTitle());
+    private WeatherEvent editEventService(WeatherEvent cevent, WeatherEvent editWeatherEvent) {
+        if (editWeatherEvent.getTitle() != null) {
+            cevent.setTitle(editWeatherEvent.getTitle());
         }
 
-        if (editEvent.getDescription() != null) {
-            cevent.setDescription(editEvent.getDescription());
+        if (editWeatherEvent.getDescription() != null) {
+            cevent.setDescription(editWeatherEvent.getDescription());
         }
 
-        if (editEvent.getStartTime() != null) {
-            cevent.setStartTime(editEvent.getStartTime());
+        if (editWeatherEvent.getStartTime() != null) {
+            cevent.setStartTime(editWeatherEvent.getStartTime());
         }
 
-        if (editEvent.getEndTime() != null) {
-            cevent.setEndTime(editEvent.getEndTime());
+        if (editWeatherEvent.getEndTime() != null) {
+            cevent.setEndTime(editWeatherEvent.getEndTime());
         }
 
         return cevent;

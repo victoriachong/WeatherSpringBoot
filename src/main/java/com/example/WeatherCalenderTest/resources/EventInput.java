@@ -1,7 +1,9 @@
 package com.example.WeatherCalenderTest.resources;
 
-import com.example.WeatherCalenderTest.model.Event;
+import com.example.WeatherCalenderTest.model.WeatherEvent;
 import com.example.WeatherCalenderTest.model.WeatherUser;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
 
@@ -52,19 +54,25 @@ public class EventInput {
         this.endTime = endTime;
     }
 
-    public Event toNewEvent(UserRepository userRepository) {
-        Event newEvent = new Event();
-        newEvent.setTitle(this.getTitle());
-        newEvent.setDescription(this.getDescription());
-        Optional<WeatherUser> userWithTheGivenID= userRepository.findById(this.getUserid());
-        if (userWithTheGivenID.isEmpty()){
-            newEvent.setUser(null);
+    public WeatherEvent toNewEvent(UserRepository userRepository) {
+        WeatherEvent newWeatherEvent = new WeatherEvent();
+        newWeatherEvent.setTitle(this.getTitle());
+        newWeatherEvent.setDescription(this.getDescription());
+        if (this.getUserid() == null){newWeatherEvent.setWeatherUser(null);}
+        else{
+            Optional<WeatherUser> userWithTheGivenID= userRepository.findById(this.getUserid());
+            if (userWithTheGivenID.isEmpty()){
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+            }
+            else {
+                newWeatherEvent.setWeatherUser(userWithTheGivenID.get());
+                userWithTheGivenID.get().getUserEvents().add(newWeatherEvent);
+            }
         }
-        else{newEvent.setUser(userWithTheGivenID.get());}
-        newEvent.setStartTime(this.getStartTime());
-        newEvent.setEndTime(this.getEndTime());
+        newWeatherEvent.setStartTime(this.getStartTime());
+        newWeatherEvent.setEndTime(this.getEndTime());
 
-        return newEvent;
+        return newWeatherEvent;
     }
 
 

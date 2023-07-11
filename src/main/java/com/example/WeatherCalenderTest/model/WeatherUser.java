@@ -24,11 +24,10 @@ public class WeatherUser {
     private String email;
     @OneToMany(mappedBy = "weatherUser", cascade = CascadeType.ALL)
     @JsonManagedReference
-    private Set<Event> events = new HashSet<>();
+    private Set<WeatherEvent> userEvents = new HashSet<>();
     @Column(nullable = false)
     private Double localtzoffset;
     @ElementCollection
-    @JsonIgnore
     private List<String> favourites = new ArrayList<String>();
 
     public Long getId() {
@@ -63,12 +62,12 @@ public class WeatherUser {
         this.email = email;
     }
 
-    public Set<Event> getEvents() {
-        return events;
+    public Set<WeatherEvent> getUserEvents() {
+        return userEvents;
     }
 
-    public void setEvents(Set<Event> events) {
-        this.events = events;
+    public void setUserEvents(Set<WeatherEvent> weatherEvents) {
+        this.userEvents = weatherEvents;
     }
 
     public Double getLocaltzoffset() {

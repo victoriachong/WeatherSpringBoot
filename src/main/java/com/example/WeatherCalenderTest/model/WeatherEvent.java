@@ -1,14 +1,12 @@
 package com.example.WeatherCalenderTest.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 
 @Entity
 @Table(name="weatherEvent")
-public class Event {
+public class WeatherEvent {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
@@ -35,11 +33,11 @@ public class Event {
         this.id = id;
     }
 
-    public WeatherUser getUser() {
+    public WeatherUser getWeatherUser() {
         return weatherUser;
     }
 
-    public void setUser(WeatherUser weatherUser) {
+    public void setWeatherUser(WeatherUser weatherUser) {
         this.weatherUser = weatherUser;
     }
 

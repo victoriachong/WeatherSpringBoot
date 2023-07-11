@@ -13,7 +13,7 @@ import java.util.Optional;
 
 @RestController
 public class UsersController {
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     public UsersController(UserRepository userRepository){
         this.userRepository = userRepository;
@@ -73,6 +73,10 @@ public class UsersController {
     private WeatherUser editUserService(WeatherUser cuser, WeatherUser editWeatherUser) {
         if (editWeatherUser.getUsername() != null) {
             cuser.setUsername(editWeatherUser.getUsername());
+        }
+
+        if (editWeatherUser.getLocaltzoffset() != null) {
+            cuser.setLocaltzoffset(editWeatherUser.getLocaltzoffset());
         }
 
         if (editWeatherUser.getEmail() != null) {

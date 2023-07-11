@@ -2,6 +2,9 @@ package com.example.WeatherCalenderTest.resources;
 
 import com.example.WeatherCalenderTest.model.WeatherUser;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class UserInput {
     private String username;
@@ -9,6 +12,15 @@ public class UserInput {
     private String email;
     private Double localtzoffset;
 
+    private List<String> favourites = new ArrayList<String>();
+
+    public List<String> getFavourites() {
+        return favourites;
+    }
+
+    public void setFavourites(List<String> favourites) {
+        this.favourites = favourites;
+    }
 
     public String getUsername() {
         return username;
@@ -49,6 +61,7 @@ public class UserInput {
         newuser.setEmail(this.email);
         newuser.setPassword(this.password);
         newuser.setLocaltzoffset(this.localtzoffset);
+        newuser.setFavourites(this.favourites);
 
         return newuser;
 
