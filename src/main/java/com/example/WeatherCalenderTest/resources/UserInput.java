@@ -1,6 +1,6 @@
 package com.example.WeatherCalenderTest.resources;
 
-import com.example.WeatherCalenderTest.model.User;
+import com.example.WeatherCalenderTest.model.WeatherUser;
 
 
 public class UserInput {
@@ -43,9 +43,8 @@ public class UserInput {
         this.localtzoffset = localtzoffset;
     }
 
-    public User toNewUser(){
-        User newuser = new User();
-
+    public WeatherUser toNewUser(){
+        WeatherUser newuser = new WeatherUser();
         newuser.setUsername(this.username);
         newuser.setEmail(this.email);
         newuser.setPassword(this.password);

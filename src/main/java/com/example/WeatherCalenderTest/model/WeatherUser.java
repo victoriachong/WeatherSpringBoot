@@ -1,30 +1,41 @@
 package com.example.WeatherCalenderTest.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "weatherUsers")
-public class User {
+public class WeatherUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private long id;
+    private Long id;
+    @Column(nullable = false)
     private String username;
+    @Column(nullable = false)
     private String password;
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String email;
-//    private List<Event> UserEvents = new ArrayList<Event>();
+    @OneToMany(mappedBy = "weatherUser", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private Set<Event> events = new HashSet<>();
+    @Column(nullable = false)
     private Double localtzoffset;
+    @ElementCollection
+    @JsonIgnore
     private List<String> favourites = new ArrayList<String>();
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -52,13 +63,13 @@ public class User {
         this.email = email;
     }
 
-//    public List<Event> getUserEvents() {
-//        return UserEvents;
-//    }
-//
-//    public void setUserEvents(List<Event> userEvents) {
-//        UserEvents = userEvents;
-//    }
+    public Set<Event> getEvents() {
+        return events;
+    }
+
+    public void setEvents(Set<Event> events) {
+        this.events = events;
+    }
 
     public Double getLocaltzoffset() {
         return localtzoffset;

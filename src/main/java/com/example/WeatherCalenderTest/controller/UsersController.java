@@ -1,8 +1,8 @@
 package com.example.WeatherCalenderTest.controller;
 
+import com.example.WeatherCalenderTest.model.WeatherUser;
 import com.example.WeatherCalenderTest.resources.UserInput;
 import com.example.WeatherCalenderTest.resources.UserRepository;
-import com.example.WeatherCalenderTest.model.User;
 import jakarta.transaction.Transactional;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -20,23 +20,23 @@ public class UsersController {
     }
 
     @GetMapping(path = "/users")
-    public List<User> getAllUsers(){
+    public List<WeatherUser> getAllUsers(){
         return userRepository.findAll();
     }
 
     @GetMapping(path="/users/username")
-    public List<User> getUserByUsername(@RequestParam("username") String username) {
+    public List<WeatherUser> getUserByUsername(@RequestParam("username") String username) {
         return userRepository.findByUsernameContainsIgnoreCase(username);
     }
 
     @GetMapping(path="/users/email")
-    public List<User> getUserByEmail(@RequestParam("email") String email) {
+    public List<WeatherUser> getUserByEmail(@RequestParam("email") String email) {
         return userRepository.findByEmailContainsIgnoreCase(email);
     }
 
     @GetMapping(path = "/users/{id}")
-    public User getUser(@PathVariable("id") long id){
-        Optional<User> userWithTheGivenID= userRepository.findById(id);
+    public WeatherUser getUser(@PathVariable("id") long id){
+        Optional<WeatherUser> userWithTheGivenID= userRepository.findById(id);
         if (userWithTheGivenID.isEmpty()){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
@@ -46,8 +46,8 @@ public class UsersController {
     @PostMapping(path = "/users")
     @ResponseStatus(HttpStatus.CREATED)
     public void insertUser(@RequestBody UserInput inputUser){
-        User newUser = inputUser.toNewUser();
-        userRepository.save(newUser);
+        WeatherUser newWeatherUser = inputUser.toNewUser();
+        userRepository.save(newWeatherUser);
     }
 
     @DeleteMapping(path = "/users/{id}")
@@ -57,35 +57,35 @@ public class UsersController {
     }
 
     @PatchMapping(path = "users/{id}")
-    public User editUser(@PathVariable("id") long id, @RequestBody UserInput newUser){
-        User editUser = newUser.toNewUser();
+    public WeatherUser editUser(@PathVariable("id") long id, @RequestBody UserInput newUser){
+        WeatherUser editWeatherUser = newUser.toNewUser();
 
-        Optional<User> userWithTheGivenID = userRepository.findById(id);
+        Optional<WeatherUser> userWithTheGivenID = userRepository.findById(id);
         if (userWithTheGivenID.isEmpty()){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
-        User edittedUser = editUser(userWithTheGivenID.get(), editUser);
-        userRepository.save(edittedUser);
+        WeatherUser edittedWeatherUser = editUserService(userWithTheGivenID.get(), editWeatherUser);
+        userRepository.save(edittedWeatherUser);
 
-        return edittedUser;
+        return edittedWeatherUser;
     }
 
-    private User editUser(User cuser, User editUser) {
-        if (editUser.getUsername() != null) {
-            cuser.setUsername(editUser.getUsername());
+    private WeatherUser editUserService(WeatherUser cuser, WeatherUser editWeatherUser) {
+        if (editWeatherUser.getUsername() != null) {
+            cuser.setUsername(editWeatherUser.getUsername());
         }
 
-        if (editUser.getEmail() != null) {
-            cuser.setEmail(editUser.getEmail());
+        if (editWeatherUser.getEmail() != null) {
+            cuser.setEmail(editWeatherUser.getEmail());
         }
 
-        if (editUser.getPassword() != null) {
-            cuser.setPassword(editUser.getPassword());
+        if (editWeatherUser.getPassword() != null) {
+            cuser.setPassword(editWeatherUser.getPassword());
         }
 
-        if (editUser.getFavourites() != null) {
+        if (editWeatherUser.getFavourites() != null) {
             List<String> cfavourites = cuser.getFavourites();
-            for (String Favourite : editUser.getFavourites()) {
+            for (String Favourite : editWeatherUser.getFavourites()) {
                 if (cfavourites.contains(Favourite)) {
                     cfavourites.remove(Favourite);
                 } else {

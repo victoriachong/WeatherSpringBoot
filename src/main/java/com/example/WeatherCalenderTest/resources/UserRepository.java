@@ -1,16 +1,16 @@
 package com.example.WeatherCalenderTest.resources;
 
-import com.example.WeatherCalenderTest.model.User;
+import com.example.WeatherCalenderTest.model.WeatherUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Long> {
-    List<User> findByUsernameContainsIgnoreCase(String username);
-    List<User> findByEmailContainsIgnoreCase(String email);
+public interface UserRepository extends JpaRepository<WeatherUser, Long> {
+    List<WeatherUser> findByUsernameContainsIgnoreCase(String username);
+    List<WeatherUser> findByEmailContainsIgnoreCase(String email);
 
-    User findByEmail(String email);
+    WeatherUser findByEmail(String email);
 
 }
