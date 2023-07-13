@@ -24,13 +24,13 @@ public class UsersController {
         return userRepository.findAll();
     }
 
-    @GetMapping(path="/users/username")
-    public List<WeatherUser> getUserByUsername(@RequestParam("username") String username) {
+    @GetMapping(path="/users/username/{username}")
+    public List<WeatherUser> getUserByUsername(@PathVariable("username") String username) {
         return userRepository.findByUsernameContainsIgnoreCase(username);
     }
 
-    @GetMapping(path="/users/email")
-    public List<WeatherUser> getUserByEmail(@RequestParam("email") String email) {
+    @GetMapping(path="/users/email/{email}")
+    public List<WeatherUser> getUserByEmail(@PathVariable("email") String email) {
         return userRepository.findByEmailContainsIgnoreCase(email);
     }
 
