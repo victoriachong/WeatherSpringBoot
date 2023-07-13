@@ -10,10 +10,12 @@
     <script src="Calender.js" type="application/javascript"></script>
     <script src="Login.js" type="application/javascript"></script>
     <style>
-        body {
-            padding: 0;
-            font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
-            font-size: 14px;
+        body{
+            align-items: flex-start;
+            gap: 10px;
+            background-color: #eaf7e3;
+            /*height: 982px;*/
+            background-image: linear-gradient(180deg, #88a8d7ff 0%, #88a8d700 90%);
         }
         #calendar {
             max-width: 900px;
@@ -33,7 +35,7 @@
 </head>
 <body><nav class="navbar navbar-expand-lg bg-dark navbar-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">Navbar</a>
+        <a class="navbar-brand" href="#">Weather Calendar</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -42,26 +44,25 @@
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="#">Home</a>
                 </li>
+                <!--
                 <li class="nav-item">
                     <a class="nav-link" href="#">Link</a>
                 </li>
+                -->
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Dropdown
+                        Profile
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" onclick="triggerLogin()">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        <li><a class="dropdown-item" onclick="triggerLogin()">Log in</a></li>
+                        <li><a class="dropdown-item" onclick="triggerSignup()">Sign up</a></li>
+                        <!--<li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#">Something else here</a></li> -->
                     </ul>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link disabled">Disabled</a>
                 </li>
             </ul>
             <form class="d-flex" role="search">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <input class="form-control me-2" type="search" placeholder="Location..." aria-label="Search">
                 <button class="btn btn-outline-success" type="submit">Search</button>
             </form>
         </div>
@@ -141,32 +142,58 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Create Event</h5>
+                <h5 class="modal-title"> Log in</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form>
                     <div class="mb-3">
-                        <label for="Event-title" class="col-form-label">Title:</label>
-                        <input type="text" class="form-control" id="Event-title">
+                        <label for="Event-title" class="col-form-label">Username:</label>
+                        <input type="text" class="form-control" id="Login-title">
                     </div>
                     <div class="mb-3">
-                        <label for="description-text" class="col-form-label">Description:</label>
-                        <textarea class="form-control" id="description-text"></textarea>
-                    </div>
-                    <div class="mb-3">
-                        <label for="start-datetime">Starts:</label>
-                        <input type="datetime-local" id="start-datetime"/>
-                    </div>
-                    <div class="mb-3">
-                        <label for="end-datetime">Ends:</label>
-                        <input type="datetime-local" id="end-datetime"/>
+                        <label for="Event-title" class="col-form-label">Password:</label>
+                        <input type="text" class="form-control" id="Login-title">
                     </div>
                 </form>
             </div>
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" onclick="postEvent()" data-bs-dismiss="modal">Save event</button>
+                <button type="button" class="btn btn-primary" onclick="postEvent()" data-bs-dismiss="modal">Log in</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal" tabindex="-1" id="signup-modal" >
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Sign up</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="Event-title" class="col-form-label">Username:</label>
+                        <input type="text" class="form-control" id="Signup-title">
+                    </div>
+                    <div class="mb-3">
+                        <label for="Event-title" class="col-form-label">Password:</label>
+                        <input type="text" class="form-control" id="Signup-title">
+                    </div>
+                    <div class="mb-3">
+                        <label for="Event-title" class="col-form-label">Email:</label>
+                        <input type="text" class="form-control" id="Signup-title">
+                    </div>
+                    <div class="mb-3">
+                        <label for="Event-title" class="col-form-label">Default City:</label>
+                        <input type="text" class="form-control" id="Signup-title">
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="postEvent()" data-bs-dismiss="modal">Create account</button>
             </div>
         </div>
     </div>
