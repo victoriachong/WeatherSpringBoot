@@ -1,3 +1,23 @@
+function buttonchange() {
+    var logIn = document.getElementById('login')
+    var SignUp = document.getElementById('signup')
+    var LogOut = document.getElementById('logout')
+
+
+    if (userid != null) {
+        login.style.visibility = "block";
+        signup.style.visibility = "block";
+        logout.style.visibility = "none";
+    } else {
+        login.style.visibility = "none";
+        signup.style.visibility = "none";
+        logout.style.visibility = "block";
+    }
+}
+
+
+
+
 function triggerLogin(){
     const loginModal = document.getElementById('login-modal')
     let login = new bootstrap.Modal(loginModal, {})
@@ -22,8 +42,8 @@ function loginCheck(){
                 alert("wrong password")
             }
         }).catch(function(error){
-            console.error(error)
-            alert("user does not exist")
+        console.error(error)
+        alert("user does not exist")
     })
 
     const loginModal = document.getElementById('login-modal')
@@ -44,4 +64,12 @@ function newUserSignup(){
 
     fetch("/users", {method:"POST",
         headers:{'Accept': 'application/json', 'Content-Type':'application/json'}})
+}
+
+function triggerLogout() {
+
+    var username = sessionStorage.getItem("username");
+    console.log(username)
+    document.getElementById("username").innerHTML = username
+    window.sessionStorage.removeItem("username")
 }

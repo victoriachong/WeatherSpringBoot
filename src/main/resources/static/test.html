@@ -57,8 +57,10 @@
                         Profile
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" onclick="triggerLogin()">Log in</a></li>
-                        <li><a class="dropdown-item" onclick="triggerSignup()" hidden>Sign up</a></li>
+                        <li><a class="dropdown-item" id='login' onclick="triggerLogin()">Log in</a></li>
+                        <li><a class="dropdown-item" id='signup' onclick="triggerSignup()">Sign up</a></li>
+                        <li><a class="dropdown-item" id='logout' onclick="triggerLogout()">Log out</a></li>
+
                         <!--<li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="#">Something else here</a></li> -->
                     </ul>
@@ -212,6 +214,9 @@
         document.getElementById("user-log").innerHTML = username
     }
 </script>
+
+
+
 
 </body>
 </html>
