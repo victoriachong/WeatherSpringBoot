@@ -11,21 +11,21 @@ document.addEventListener('DOMContentLoaded', function() {
             center: 'title',
             right: 'dayGridMonth,timeGridWeek,timeGridDay'
         },
-        eventSources:[
-            {
-                events: function(infofetch, success){
-                    fetch('/events', {method: "GET"})
+        eventSources: [
+            {events: async function(infofetch, success){
+                    await fetch('/events', {method: "GET"})
                         .then(resp => resp.json())
                         .then(function (data) {
                             var events = [];
                             data.forEach(e=>{
+                                // console.log(new Date(e.startTime*1000))
                                 events.push(
                                     {id: e.id,
-                                        title: e.title,
-                                        start: new Date(e.startTime*1000),
-                                        end: new Date(e.endTime*1000),
-                                        description: e.description,
-                                        backgroundColor: e.backgroundColor}
+                                    title: e.title,
+                                    start: new Date(e.startTime*1000),
+                                    end: new Date(e.endTime*1000),
+                                    description: e.description,
+                                    backgroundColor: e.backgroundColor}
                                 );
                             })
                             success(events);
@@ -35,6 +35,11 @@ document.addEventListener('DOMContentLoaded', function() {
                         });
                 },
                 color: 'yellow'
+            },
+            {events: async function(infofetch, success){
+                var events = await callCity()
+                    success(events)
+                }, display: 'background'
             }
         ],
         dayMaxEventRows: true, // for all non-TimeGrid views
@@ -46,13 +51,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
         select: function(info){
             createEventsTrigger(info)
-            calender.refetchEvents()
-            calender.rerenderEvents()
         },
         eventDidMount: function(info) {
             const exampleEl = info.el
             const popover = new bootstrap.Popover(exampleEl, {
                 trigger:'hover',
+                html: true,
                 title: info.event.title,
                 content: info.event.extendedProps.description,
                 container: 'body'
@@ -61,24 +65,22 @@ document.addEventListener('DOMContentLoaded', function() {
         },
         eventClick: function(info){
             editEventsTrigger(info)
-            calender.refetchEvents()
-            calender.rerenderEvents()
         }
     });
     calendar.render();
 });
 
-function getEventsfromDB(){
-    fetch('/events', {method: "GET"})
-        .then(resp => resp.json())
-        .then(function (data) {
-            return data
-        })
-        .catch(function (error) {
-            console.error(error);
-        });
-
-}
+// function getEventsfromDB(){
+//     fetch('/events', {method: "GET"})
+//         .then(resp => resp.json())
+//         .then(function (data) {
+//             return data
+//         })
+//         .catch(function (error) {
+//             console.error(error);
+//         });
+//
+// }
 
 function createEventsTrigger(info){
     console.log('selected ' + info.start.toISOString() + ' to ' + info.end.toISOString());
@@ -125,7 +127,7 @@ function postEvent(){
     document.getElementById('description-text').value = ""
     myModal.hide();
 
-    calender.refetchEvents()
+    location.reload()
 }
 
 function editEventsTrigger(info){
@@ -180,7 +182,7 @@ function patchEvent(){
     document.getElementById('description-text').value = ""
     myModal.hide();
 
-    calendar.refetchEvents()
+    location.reload()
 }
 
 function deleteEvent(){
@@ -195,5 +197,5 @@ function deleteEvent(){
             console.error(error);
         });
 
-    // calender.refetchEvents();
+    location.reload()
 }
