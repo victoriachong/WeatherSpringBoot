@@ -47,21 +47,20 @@
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" id="user-log" href="#">Home</a>
                 </li>
-                <!--
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
-                </li>
-                -->
+
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Profile
                     </a>
+
+
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" onclick="triggerLogin()">Log in</a></li>
-                        <li><a class="dropdown-item" onclick="triggerSignup()" hidden>Sign up</a></li>
-                        <!--<li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li> -->
+                        <li><a class="dropdown-item" onclick="">Log out</a></li>
+                        <li><a class="dropdown-item" onclick="triggerSignup()">Create Account</a></li>
+                        <li><a class="dropdown-item" onclick="">Delete Account</a></li>
                     </ul>
+
                 </li>
             </ul>
             <form class="d-flex" role="search">
@@ -197,7 +196,7 @@
             </div>
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" onclick="postEvent()" data-bs-dismiss="modal">Create account</button>
+                <button type="button" class="btn btn-primary" onclick="loginCheck()" data-bs-dismiss="modal">Create account</button>
             </div>
         </div>
     </div>
@@ -208,7 +207,7 @@
     var username = sessionStorage.getItem('username')
     console.log("checking for user")
     console.log(userid)
-    if(userid!= null){
+    if(userid != null){
         document.getElementById("user-log").innerHTML = username
     }
 </script>
