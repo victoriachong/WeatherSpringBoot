@@ -26,8 +26,8 @@ public class EventsController {
         return eventsRepository.findAll();
     }
 
-    @GetMapping(path="/events/{id}")
-    public Set<WeatherEvent> getUsersEvents(@PathVariable("id") Long id){
+    @GetMapping(path="/events/{userid}")
+    public Set<WeatherEvent> getUsersEvents(@PathVariable("userid") Long id){
         Optional<WeatherUser> userWithTheGivenID= userRepository.findById(id);
         if (userWithTheGivenID.isEmpty()){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);

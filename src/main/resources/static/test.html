@@ -9,6 +9,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
     <script src="Calender.js" type="application/javascript"></script>
     <script src="ExternalAPI.js" type="application/javascript"></script>
+    <script src="LogIn.js" type="application/javascript"></script>
     <style>
         body {
             padding: 0;
@@ -33,36 +34,30 @@
 </head>
 <body><nav class="navbar navbar-expand-lg bg-dark navbar-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">Navbar</a>
+        <a class="navbar-brand" href="#">Weather Calender</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
+                    <a class="nav-link active" aria-current="page" id="user-log" href="#">Home</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Dropdown
+                        Profile
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        <li><a class="dropdown-item" id="login-dropdown" href="#" onclick="triggerLogin()">Log In</a></li>
+                        <li><a class="dropdown-item" id="signup-dropdown" href="#" onclick="triggerSignup()">Sign Up</a></li>
+                        <li><a class="dropdown-item" id="editprofile-dropdown" onclick="triggerEditProfile()" hidden href="#">Edit Profile</a></li>
+                        <li><a class="dropdown-item" id="logout-dropdown"  onclick="triggerLogout()" hidden href="#">Log Out</a></li>
                     </ul>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link disabled">Disabled</a>
                 </li>
             </ul>
             <form class="d-flex" role="search">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" id="citySearch">
-                <button class="btn btn-outline-success" type="submit" onclick="storeSearchCity()">Search</button>
+                <input class="form-control me-2" type="search" placeholder="Location Search" aria-label="Search" id="citySearch">
+                <button class="btn btn-outline-success" type="button" onclick="storeSearchCity()">Search</button>
             </form>
         </div>
     </div>
@@ -137,7 +132,114 @@
         </div>
     </div>
 </div>
+<div class="modal" tabindex="-1" id="login-modal" >
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Log in</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="Login-Email" class="col-form-label">Email:</label>
+                        <input type="text" class="form-control" id="Login-email">
+                    </div>
+                    <div class="mb-3">
+                        <label for="Login-password" class="col-form-label">Password:</label>
+                        <input type="text" class="form-control" id="Login-password">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="loginCheck()" data-bs-dismiss="modal">Log in</button>
+            </div>
+        </div>
+    </div>
+</div>
 
+<div class="modal" tabindex="-1" id="signup-modal" >
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Sign up</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="signup-username" class="col-form-label">Username:</label>
+                        <input type="text" class="form-control" id="Signup-username">
+                    </div>
+                    <div class="mb-3">
+                        <label for="signup-password" class="col-form-label">Password:</label>
+                        <input type="text" class="form-control" id="Signup-password">
+                    </div>
+                    <div class="mb-3">
+                        <label for="email-input" class="col-form-label">Email:</label>
+                        <input type="text" class="form-control" id="email-input">
+                    </div>
+                    <div class="mb-3">
+                        <label for="default-city" class="col-form-label">Default City:</label>
+                        <input type="text" class="form-control" id="default-city">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="newUserSignup()" data-bs-dismiss="modal">Create account</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal" tabindex="-1" id="editprofile-modal" >
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Profile</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="edit-username" class="col-form-label">Username:</label>
+                        <input type="text" class="form-control" id="edit-username">
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit-password" class="col-form-label">Password:</label>
+                        <input type="text" class="form-control" id="edit-password">
+                    </div>
+                    <div class="mb-3">
+                        <label for="email-edit" class="col-form-label">Email:</label>
+                        <input type="text" class="form-control" id="email-edit">
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit-default-city" class="col-form-label">Default City:</label>
+                        <input type="text" class="form-control" id="edit-default-city">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="patchProfile()" data-bs-dismiss="modal">Save changes</button>
+                <button type="button" class="btn btn-secondary" onclick="deleteProfile()" data-bs-dismiss="modal">Delete profile</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var userid = sessionStorage.getItem('userid')
+    var username = sessionStorage.getItem('username')
+    console.log("checking for user")
+    console.log(userid)
+    console.log("checking for location")
+    console.log(sessionStorage.getItem('search_location'))
+    if(userid != null){
+        document.getElementById("user-log").innerHTML = "Welcome " + username+", showing weather for " + sessionStorage.getItem('search_location')
+        document.getElementById("login-dropdown").hidden = true
+        document.getElementById("signup-dropdown").hidden = true
+        document.getElementById("editprofile-dropdown").hidden = false
+        document.getElementById("logout-dropdown").hidden = false
+    }
+</script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
 </body>
 </html>

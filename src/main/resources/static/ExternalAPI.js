@@ -3,6 +3,7 @@
     let search = document.getElementById("citySearch")
     console.log(search.value)
     sessionStorage.setItem("search_location", search.value)
+     window.location.reload(true)
 }
 
  async function callCity(){

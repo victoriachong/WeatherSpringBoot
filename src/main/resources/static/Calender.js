@@ -12,10 +12,12 @@ document.addEventListener('DOMContentLoaded', function() {
             right: 'dayGridMonth,timeGridWeek,timeGridDay'
         },
         eventSources: [
-            {events: async function(infofetch, success){
-                    await fetch('/events', {method: "GET"})
+            {events: function(infofetch, success){
+                if (sessionStorage.getItem('userid')!=null){
+                     fetch('/events/'+sessionStorage.getItem('userid'), {method: "GET"})
                         .then(resp => resp.json())
-                        .then(function (data) {
+                        .then(function (data){
+                            console.log(data)
                             var events = [];
                             data.forEach(e=>{
                                 // console.log(new Date(e.startTime*1000))
@@ -28,13 +30,13 @@ document.addEventListener('DOMContentLoaded', function() {
                                     backgroundColor: e.backgroundColor}
                                 );
                             })
+                            console.log(events)
                             success(events);
                         })
                         .catch(function (error) {
                             console.error(error);
-                        });
-                },
-                color: 'yellow'
+                        })}
+                }, color:"yellow"
             },
             {events: async function(infofetch, success){
                 var events = await callCity()
@@ -103,7 +105,7 @@ function postEvent(){
         "description": document.getElementById('description-text').value,
         "startTime": Math.floor(new Date(document.getElementById('start-datetime').value+":00.000Z").getTime()/1000),
         "endTime": Math.floor(new Date(document.getElementById('end-datetime').value+":00.000Z").getTime()/1000),
-        "userid": 1
+        "userid": sessionStorage.getItem('userid')
     }
 
 
