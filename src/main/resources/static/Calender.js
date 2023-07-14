@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                     start: new Date(e.startTime*1000),
                                     end: new Date(e.endTime*1000),
                                     description: e.description,
-                                    backgroundColor: e.backgroundColor}
+                                    color: "#439884"}
                                 );
                             })
                             console.log(events)
@@ -36,12 +36,12 @@ document.addEventListener('DOMContentLoaded', function() {
                         .catch(function (error) {
                             console.error(error);
                         })}
-                }, color:"yellow"
+                }
             },
             {events: async function(infofetch, success){
                 var events = await callCity()
                     success(events)
-                }, display: 'background'
+                }
             }
         ],
         dayMaxEventRows: true, // for all non-TimeGrid views

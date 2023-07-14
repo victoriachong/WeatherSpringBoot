@@ -14,7 +14,7 @@ function loginCheck(){
             if(data[0].password == inputPassword){
                 sessionStorage.setItem('userid', data[0].id)
                 sessionStorage.setItem('username', data[0].username)
-                sessionStorage.setItem('search_location', data[0].favourites[0])
+                sessionStorage.setItem('search_location', data[0].defaultLocation)
                 console.log(sessionStorage.getItem('userid'))
                 location.reload()
 
@@ -36,15 +36,12 @@ function triggerSignup(){
 
 
 function newUserSignup(){
-    var favourites = []
-    favourites.push(document.getElementById("default-city").value)
 
     var user={
         "username" : document.getElementById("Signup-username").value,
         "password" : document.getElementById("Signup-password").value,
         "email" : document.getElementById("email-input").value,
-        "localtzoffset": 2,
-        "favourites" :favourites
+        "defaultLocation" :document.getElementById("default-city").value
     }
 
     fetch("/users", {method:"POST",
@@ -75,7 +72,7 @@ function triggerEditProfile(){
             console.log(data)
             document.getElementById('edit-username').value = data.username
             document.getElementById('edit-password').value = data.password
-            document.getElementById('edit-default-city').value = data.favourites[0]
+            document.getElementById('edit-default-city').value = data.defaultLocation
             document.getElementById('email-edit').value = data.email
             const editProfileModal = document.getElementById('editprofile-modal')
             editProfileModal.value = data
@@ -92,13 +89,11 @@ function triggerEditProfile(){
 }
 
 function patchProfile(){
-    var favourites = []
-    favourites.push(document.getElementById("edit-default-city").value)
 
     var data = {
         "username" : document.getElementById('edit-username').value ,
         "password" : document.getElementById('edit-password').value ,
-        "favourites": favourites,
+        "defaultLocation": document.getElementById("edit-default-city").value,
         "email": document.getElementById('email-edit').value
     }
 
@@ -108,10 +103,14 @@ function patchProfile(){
         }, body: JSON.stringify(data)})
         .then(function (resp) {
             console.log(resp)
+            sessionStorage.setItem('username', document.getElementById('edit-username').value)
+            sessionStorage.setItem('search_location', document.getElementById("edit-default-city").value)
+            location.reload()
         })
         .catch(function (error) {
             console.error(error);
         });
+
 
 }
 

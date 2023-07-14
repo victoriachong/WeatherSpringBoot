@@ -21,7 +21,7 @@
             margin: 40px auto;
         }
         .popover {
-            --bs-popover-max-width: 200px;
+            --bs-popover-max-width: 300px;
             --bs-popover-border-color: var(--bs-primary);
             --bs-popover-body-padding-x: .5rem;
             --bs-popover-body-padding-y: .5rem;
@@ -231,9 +231,9 @@
     console.log("checking for user")
     console.log(userid)
     console.log("checking for location")
-    console.log(sessionStorage.getItem('search_location'))
+    console.log(sessionStorage.getItem('showing_location'))
     if(userid != null){
-        document.getElementById("user-log").innerHTML = "Welcome " + username+", showing weather for " + sessionStorage.getItem('search_location')
+        document.getElementById("user-log").innerHTML = "Welcome " + username+", showing weather for " + sessionStorage.getItem('showing_location')
         document.getElementById("login-dropdown").hidden = true
         document.getElementById("signup-dropdown").hidden = true
         document.getElementById("editprofile-dropdown").hidden = false

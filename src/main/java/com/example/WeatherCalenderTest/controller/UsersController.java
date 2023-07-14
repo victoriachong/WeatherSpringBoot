@@ -75,8 +75,8 @@ public class UsersController {
             cuser.setUsername(editWeatherUser.getUsername());
         }
 
-        if (editWeatherUser.getLocaltzoffset() != null) {
-            cuser.setLocaltzoffset(editWeatherUser.getLocaltzoffset());
+        if (editWeatherUser.getDefaultLocation() != null) {
+            cuser.setDefaultLocation(editWeatherUser.getDefaultLocation());
         }
 
         if (editWeatherUser.getEmail() != null) {
@@ -87,16 +87,6 @@ public class UsersController {
             cuser.setPassword(editWeatherUser.getPassword());
         }
 
-        if (editWeatherUser.getFavourites() != null) {
-            List<String> cfavourites = cuser.getFavourites();
-            for (String Favourite : editWeatherUser.getFavourites()) {
-                if (cfavourites.contains(Favourite)) {
-                    cfavourites.remove(Favourite);
-                } else {
-                    cfavourites.add(Favourite);
-                }
-            }
-        }
         return cuser;
     }
 

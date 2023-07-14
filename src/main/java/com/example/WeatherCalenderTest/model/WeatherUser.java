@@ -25,10 +25,9 @@ public class WeatherUser {
     @OneToMany(mappedBy = "weatherUser", cascade = CascadeType.ALL)
     @JsonManagedReference
     private Set<WeatherEvent> userEvents = new HashSet<>();
+
     @Column(nullable = false)
-    private Double localtzoffset;
-    @ElementCollection
-    private List<String> favourites = new ArrayList<String>();
+    private String defaultLocation;
 
     public Long getId() {
         return id;
@@ -70,19 +69,11 @@ public class WeatherUser {
         this.userEvents = weatherEvents;
     }
 
-    public Double getLocaltzoffset() {
-        return localtzoffset;
+    public String getDefaultLocation() {
+        return defaultLocation;
     }
 
-    public void setLocaltzoffset(Double localtzoffset) {
-        this.localtzoffset = localtzoffset;
-    }
-
-    public List<String> getFavourites() {
-        return favourites;
-    }
-
-    public void setFavourites(List<String> favourites) {
-        this.favourites = favourites;
+    public void setDefaultLocation(String defaultLocation) {
+        this.defaultLocation = defaultLocation;
     }
 }

@@ -10,11 +10,17 @@
      var events = []
      var conditioncolours = {"Clear":"#2191E6", "Partially cloudy":"#4C85B0", "Rain":"#2F6A97", "Rain, Partially cloudy":"#5C88AB", "Overcast":"#577C98", "Rain, Overcast":"#466373"}
      var searchInput = sessionStorage.getItem("search_location")
+     // document.getElementById("user-log").innerHTML = "Welcome " + username+", showing weather for " + sessionStorage.getItem('showing_location')
+     console.log(searchInput)
      if (searchInput!=null){
          var url = URIstring(searchInput)
          console.log(url)
          var jsonWeatherData = await getWeather(url)
          var location = jsonWeatherData.resolvedAddress
+         sessionStorage.setItem("showing_location", location)
+         var userid = sessionStorage.getItem('userid')
+         if(userid != null){
+         document.getElementById("user-log").innerHTML = "Welcome " + username+", showing weather for " + sessionStorage.getItem('showing_location')}
          var tzoffset = jsonWeatherData.tzoffset*60*60
          console.log(jsonWeatherData)
 

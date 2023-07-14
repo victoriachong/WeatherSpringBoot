@@ -10,16 +10,14 @@ public class UserInput {
     private String username;
     private String password;
     private String email;
-    private Double localtzoffset;
+    private String defaultLocation;
 
-    private List<String> favourites = new ArrayList<String>();
-
-    public List<String> getFavourites() {
-        return favourites;
+    public String getDefaultLocation() {
+        return defaultLocation;
     }
 
-    public void setFavourites(List<String> favourites) {
-        this.favourites = favourites;
+    public void setDefaultLocation(String defaultLocation) {
+        this.defaultLocation = defaultLocation;
     }
 
     public String getUsername() {
@@ -47,21 +45,14 @@ public class UserInput {
     }
 
 
-    public Double getLocaltzoffset() {
-        return localtzoffset;
-    }
 
-    public void setLocaltzoffset(Double localtzoffset) {
-        this.localtzoffset = localtzoffset;
-    }
 
     public WeatherUser toNewUser(){
         WeatherUser newuser = new WeatherUser();
         newuser.setUsername(this.username);
         newuser.setEmail(this.email);
         newuser.setPassword(this.password);
-        newuser.setLocaltzoffset(this.localtzoffset);
-        newuser.setFavourites(this.favourites);
+        newuser.setDefaultLocation(this.defaultLocation);
 
         return newuser;
 
