@@ -39,8 +39,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             },
             {events: async function(infofetch, success){
-                var events = await callCity()
+                    var events = await callCity()
                     success(events)
+
                 }
             }
         ],
