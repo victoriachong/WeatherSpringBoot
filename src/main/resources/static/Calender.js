@@ -12,9 +12,9 @@ document.addEventListener('DOMContentLoaded', function() {
             right: 'dayGridMonth,timeGridWeek,timeGridDay'
         },
         eventSources: [
-            {events: function(infofetch, success){
+            {events: async function(infofetch, success){
                 if (sessionStorage.getItem('userid')!=null){
-                     fetch('/events/'+sessionStorage.getItem('userid'), {method: "GET"})
+                     await fetch('/events/'+sessionStorage.getItem('userid'), {method: "GET"})
                         .then(resp => resp.json())
                         .then(function (data){
                             console.log(data)
@@ -116,27 +116,28 @@ function postEvent(){
         }, body: JSON.stringify(data)})
         .then(function (resp) {
             console.log(resp)
+            const eventcreator = document.getElementById('event-creator')
+            let myModal = new bootstrap.Modal(eventcreator, {})
 
+            document.getElementById('Event-title').value = ""
+            document.getElementById('description-text').value = ""
+            myModal.hide();
+
+            location.reload()
         })
         .catch(function (error) {
             console.error(error);
         });
 
     // getEventsfromDB()
-    const eventcreator = document.getElementById('event-creator')
-    let myModal = new bootstrap.Modal(eventcreator, {})
 
-    document.getElementById('Event-title').value = ""
-    document.getElementById('description-text').value = ""
-    myModal.hide();
-
-    location.reload()
 }
 
 function editEventsTrigger(info){
     console.log('title: ' + info.event.title + ' description: ' + info.event.description);
     var event = info.event
     console.log(event)
+
     // // console.log(info.startStr.substring(0,info.startStr.length-4))
     document.getElementById('event-title-to-edit').value = event.title
     document.getElementById('description-text-to-edit').value = event.extendedProps.description
@@ -155,37 +156,37 @@ function patchEvent(){
     const eventeditor = document.getElementById('event-editor')
     event = eventeditor.value
 
-    console.log(event.id)
-
     var data = {
         "title": document.getElementById('event-title-to-edit').value,
         "description": document.getElementById('description-text-to-edit').value,
         "startTime": Math.floor(new Date(document.getElementById('start-datetime-to-edit').value+":00.000Z").getTime()/1000),
         "endTime": Math.floor(new Date(document.getElementById('end-datetime-to-edit').value+":00.000Z").getTime()/1000),
-        "userid": 1
+        "userid": sessionStorage.getItem('userid')
     }
 
 
-    fetch('/events/'+event.id, {method: "PATCH", headers: {
+    fetch('/events/'+event._def.publicId, {method: "PATCH", headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
         }, body: JSON.stringify(data)})
         .then(function (resp) {
             console.log(resp)
+
+            const eventcreator = document.getElementById('event-creator')
+            let myModal = new bootstrap.Modal(eventcreator, {})
+
+            document.getElementById('Event-title').value = ""
+            document.getElementById('description-text').value = ""
+            myModal.hide();
+
+            location.reload()
         })
         .catch(function (error) {
             console.error(error);
         });
 
     // getEventsfromDB()
-    const eventcreator = document.getElementById('event-creator')
-    let myModal = new bootstrap.Modal(eventcreator, {})
 
-    document.getElementById('Event-title').value = ""
-    document.getElementById('description-text').value = ""
-    myModal.hide();
-
-    location.reload()
 }
 
 function deleteEvent(){
@@ -195,10 +196,11 @@ function deleteEvent(){
     fetch('/events/'+event.id, {method: "DELETE"})
         .then(function (resp) {
             console.log(resp)
+            location.reload()
         })
         .catch(function (error) {
             console.error(error);
         });
 
-    location.reload()
+
 }

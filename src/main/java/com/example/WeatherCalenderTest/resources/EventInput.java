@@ -8,11 +8,20 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.Optional;
 
 public class EventInput {
+//    private Long id;
     private String title;
     private String description;
     private Long startTime;
     private Long endTime;
     private Long userid;
+
+//    public Long getId() {
+//        return id;
+//    }
+//
+//    public void setId(Long id) {
+//        this.id = id;
+//    }
 
     public Long getUserid() {
         return userid;
@@ -66,7 +75,6 @@ public class EventInput {
             }
             else {
                 newWeatherEvent.setWeatherUser(userWithTheGivenID.get());
-                userWithTheGivenID.get().getUserEvents().add(newWeatherEvent);
             }
         }
         newWeatherEvent.setStartTime(this.getStartTime());

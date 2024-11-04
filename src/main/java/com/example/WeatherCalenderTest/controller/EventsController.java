@@ -38,14 +38,15 @@ public class EventsController {
     @PostMapping(path="events")
     public WeatherEvent addEvent(@RequestBody EventInput inputEvent){
         WeatherEvent newWeatherEvent = inputEvent.toNewEvent(userRepository);
+        WeatherUser eventUser = newWeatherEvent.getWeatherUser();
+        eventUser.getUserEvents().add(newWeatherEvent);
         eventsRepository.save(newWeatherEvent);
         return newWeatherEvent;
     }
 
     @DeleteMapping(path = "/events/{id}")
     @Transactional
-    public void deleteEvent(@PathVariable("id") long id){
-        eventsRepository.deleteById(id);
+    public void deleteEvent(@PathVariable("id") long id){eventsRepository.deleteById(id);
     }
 
 
@@ -61,7 +62,6 @@ public class EventsController {
 
         WeatherEvent edittedWeatherEvent = editEventService(eventWithGivenID.get(), weatherEventInput);
         eventsRepository.save(edittedWeatherEvent);
-
         return edittedWeatherEvent;
     }
 
