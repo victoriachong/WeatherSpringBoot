@@ -18,13 +18,30 @@ We access an external [Weather API](https://www.visualcrossing.com/weather-api) 
 For the calender view, we make use of existing [Full Calender Package](https://fullcalendar.io/demos). The application is also containerised with Docker to allow for consistent deployment. 
 We also hosted the application on Google Cloud Platform for a while for learning purposes. 
 
-<details>
-   <summary>Database Models:</summary>
-    <ul>
-        <li>Users database: Keeps track of user information (email, password, username, default city, user's events)</li>
-        <li>Events database: Keeps track of all user created events</li>
-    </ul>
- </details>
+### Project Break-down
+#### Backend
+`WeatherCalenderTest/src/main/java/com.example.WeatherCalenderTest` contains all the relevant Backend functions, featuring JPA Object Relational Mapping models with REST API controllers to communicate with the PostgreSQL docker container. The 2 
+tables required by the project is one for user profile data, and another for all calender events. There is a one-to-many mapping relationship between user and events.
+<ul>
+<li><code> /controller</code>: EventsController and UsersController contain the REST API mappings and functions to the PostgreSQL tables. 
+</li>
+<li><code> /model</code>: WeatherEvent and WeatherUser are used to describe schema for each table in the database, clearly stating the datatypes and column names </li>
+<li><code> /resources</code>: EventInput and UserInput manage the creation and editing of the events and user data. EventsRepository and UserRepository define the tables based on JPArespository and the models defined earlier </li>
+</ul>
+
+![alt text](RESTapi.png "REST API mappings")
+![alt text](Schema.png "Repository Schemas")
+
+#### Frontend
+
+`WeatherCalenderTest/src/main/resources/static` contains all the Frontend code. 
+<ul>
+<li><code>index.html </code> describes the User Interface elements such as modals and navbar with user friendly simple design.</li>
+<li><code>ExternalAPI.js </code> is the support code that handles the calling of the WeatherAPI to attain and format the relevant data.</li>
+<li><code>Login.js </code> calls on the relevant REST API functions to the backend to handle session log in and sign up data. </li>
+<li><code>Calender.js </code> handles the updating of the calender visual with weather and user events as well as managing events in the backend through the REST API.</li>
+</ul>
+ 
 
 ## How to run the project
 ### Docker
